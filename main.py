@@ -14,8 +14,7 @@ bot = Bot(token=TOKEN)
 dp = Dispatcher(storage=MemoryStorage())
 
 # ================== БАЗА ВКУСОВ ==================
-
-# формат: "Название": (рейтинг, профиль)
+# формат: "Название": (рейтинг, профиль) где профиль: sweet | sour | neutral
 
 flavors = {
 
@@ -146,11 +145,11 @@ class MixForm(StatesGroup):
     choosing_taste = State()
     choosing_fresh = State()
 
-# сохраняем последний выбор пользователя
+# Запоминаем последний выбор пользователя:
+# user_id -> (base, taste, fresh)
 user_last_choice = {}
 
-bases = list(flavors.keys())
-bases.remove("Свежесть")
+bases = [k for k in flavors.keys() if k != "Свежесть"]
 
 def base_keyboard():
     return ReplyKeyboardMarkup(
@@ -170,21 +169,26 @@ fresh_keyboard = ReplyKeyboardMarkup(
     resize_keyboard=True
 )
 
-regen_keyboard = ReplyKeyboardMarkup(
-    keyboard=[[KeyboardButton(text="🔄 Сгенерировать заново")]],
+# Клавиатура после выдачи микса
+post_mix_keyboard = ReplyKeyboardMarkup(
+    keyboard=[
+        [KeyboardButton(text="🔄 Сгенерировать заново")],
+        [KeyboardButton(text="🆕 Новый кальян")]
+    ],
     resize_keyboard=True
 )
 
-# ================== ЛОГИКА ==================
+# ================== ЛОГИКА ВЫБОРА ==================
 
 def build_weighted_pool(category_dict, taste, exclude=None):
     pool = []
+    exclude = set(exclude or [])
 
     for name, (rating, profile) in category_dict.items():
-
-        if exclude and name in exclude:
+        if name in exclude:
             continue
 
+        # базовый вес по рейтингу
         if rating >= 8:
             weight = 5
         elif rating >= 6:
@@ -197,31 +201,46 @@ def build_weighted_pool(category_dict, taste, exclude=None):
         # усиление по характеру вкуса
         if taste == "Сладкий" and profile == "sweet":
             weight *= 2
-        if taste == "Кислый" and profile == "sour":
+        elif taste == "Кислый" and profile == "sour":
             weight *= 2
 
-        pool.extend([name] * weight)
+        if weight > 0:
+            pool.extend([name] * weight)
 
     return pool
 
 
-def generate_mix(base_category, taste, fresh_choice):
-
-    base_pool = build_weighted_pool(flavors[base_category], taste)
-    first = random.choice(base_pool)
-
-    all_flavors = {}
+def all_non_fresh_flavors():
+    merged = {}
     for cat, items in flavors.items():
         if cat != "Свежесть":
-            all_flavors.update(items)
+            merged.update(items)
+    return merged
 
-    second_pool = build_weighted_pool(all_flavors, taste, exclude=[first])
+
+def generate_mix(base_category, taste, fresh_choice):
+    # 60% — из выбранной категории
+    base_pool = build_weighted_pool(flavors[base_category], taste)
+    if not base_pool:
+        base_pool = list(flavors[base_category].keys())
+    first = random.choice(base_pool)
+
+    # 30% — из всех кроме свежести
+    all_flavs = all_non_fresh_flavors()
+    second_pool = build_weighted_pool(all_flavs, taste, exclude=[first])
+    if not second_pool:
+        second_pool = [k for k in all_flavs.keys() if k != first]
     second = random.choice(second_pool)
 
+    # 10% — свежесть если выбрали "Свежий", иначе из всех кроме свежести
     if fresh_choice == "Свежий":
         third_pool = build_weighted_pool(flavors["Свежесть"], taste, exclude=[first, second])
+        if not third_pool:
+            third_pool = [k for k in flavors["Свежесть"].keys() if k not in {first, second}]
     else:
-        third_pool = build_weighted_pool(all_flavors, taste, exclude=[first, second])
+        third_pool = build_weighted_pool(all_flavs, taste, exclude=[first, second])
+        if not third_pool:
+            third_pool = [k for k in all_flavs.keys() if k not in {first, second}]
 
     third = random.choice(third_pool)
 
@@ -236,18 +255,29 @@ async def start(message: types.Message, state: FSMContext):
 
 @dp.message(MixForm.choosing_base)
 async def choose_base(message: types.Message, state: FSMContext):
+    if message.text not in bases:
+        await message.answer("Выбери основу кнопкой ниже 👇", reply_markup=base_keyboard())
+        return
+
     await state.update_data(base=message.text)
     await state.set_state(MixForm.choosing_taste)
     await message.answer("Характер вкуса?", reply_markup=taste_keyboard)
 
 @dp.message(MixForm.choosing_taste)
 async def choose_taste(message: types.Message, state: FSMContext):
+    if message.text not in ["Сладкий", "Кислый"]:
+        await message.answer("Выбери вариант кнопкой ниже 👇", reply_markup=taste_keyboard)
+        return
+
     await state.update_data(taste=message.text)
     await state.set_state(MixForm.choosing_fresh)
     await message.answer("Добавить свежесть?", reply_markup=fresh_keyboard)
 
 @dp.message(MixForm.choosing_fresh)
 async def choose_fresh(message: types.Message, state: FSMContext):
+    if message.text not in ["Свежий", "Нет"]:
+        await message.answer("Выбери вариант кнопкой ниже 👇", reply_markup=fresh_keyboard)
+        return
 
     data = await state.get_data()
     base = data["base"]
@@ -258,29 +288,32 @@ async def choose_fresh(message: types.Message, state: FSMContext):
 
     first, second, third = generate_mix(base, taste, fresh)
 
-    await message.answer(
-        f"🔥 Твой микс:\n60% {first}\n30% {second}\n10% {third}",
-        reply_markup=regen_keyboard
-    )
-
+    text = f"🔥 Твой микс:\n60% {first}\n30% {second}\n10% {third}"
+    await message.answer(text, reply_markup=post_mix_keyboard)
     await state.clear()
 
 @dp.message(lambda m: m.text == "🔄 Сгенерировать заново")
 async def regenerate(message: types.Message):
-
     user_id = message.from_user.id
-
     if user_id not in user_last_choice:
-        await message.answer("Сначала создай микс через /start")
+        await message.answer("Сначала создай микс через /start", reply_markup=base_keyboard())
         return
 
     base, taste, fresh = user_last_choice[user_id]
-
     first, second, third = generate_mix(base, taste, fresh)
 
+    text = f"🔥 Новый микс:\n60% {first}\n30% {second}\n10% {third}"
+    await message.answer(text, reply_markup=post_mix_keyboard)
+
+@dp.message(lambda m: m.text == "🆕 Новый кальян")
+async def new_hookah(message: types.Message, state: FSMContext):
+    user_id = message.from_user.id
+    user_last_choice.pop(user_id, None)
+
+    await state.set_state(MixForm.choosing_base)
     await message.answer(
-        f"🔥 Новый микс:\n60% {first}\n30% {second}\n10% {third}",
-        reply_markup=regen_keyboard
+        "🆕 Делаем новый кальян!\nКакую основу выбираем?",
+        reply_markup=base_keyboard()
     )
 
 # ================== ЗАПУСК ==================
