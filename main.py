@@ -13,7 +13,7 @@ TOKEN = os.getenv("TOKEN")
 bot = Bot(token=TOKEN)
 dp = Dispatcher(storage=MemoryStorage())
 
-# ---------- БАЗА ВКУСОВ С ОЦЕНКАМИ ----------
+# ---------- БАЗА ВКУСОВ ----------
 
 flavors = {
     "Black Burn Overcola": 8,
@@ -38,12 +38,12 @@ flavors = {
     "DUFT Watermelon": 7,
 }
 
-# ---------- ВЕСА ----------
+# ---------- ВЕСОВОЙ ПУЛ ----------
 
-def weighted_choice():
-    weighted = []
+def build_weighted_pool():
+    pool = []
+
     for name, rating in flavors.items():
-
         if rating >= 8:
             weight = 5
         elif rating >= 6:
@@ -53,9 +53,29 @@ def weighted_choice():
         else:
             weight = 0
 
-        weighted += [name] * weight
+        pool.extend([name] * weight)
 
-    return random.choice(weighted)
+    return pool
+
+
+def generate_mix():
+    pool = build_weighted_pool()
+
+    unique_flavors = list(set(pool))
+
+    if len(unique_flavors) < 3:
+        random.shuffle(unique_flavors)
+        return unique_flavors[0], unique_flavors[1], unique_flavors[2]
+
+    first = random.choice(pool)
+    pool = [f for f in pool if f != first]
+
+    second = random.choice(pool)
+    pool = [f for f in pool if f != second]
+
+    third = random.choice(pool)
+
+    return first, second, third
 
 # ---------- FSM ----------
 
@@ -73,14 +93,25 @@ def base_keyboard():
     )
 
 taste_keyboard = ReplyKeyboardMarkup(
-    keyboard=[[KeyboardButton(text="Сладкий")],
-              [KeyboardButton(text="Кислый")]],
+    keyboard=[
+        [KeyboardButton(text="Сладкий")],
+        [KeyboardButton(text="Кислый")]
+    ],
     resize_keyboard=True
 )
 
 fresh_keyboard = ReplyKeyboardMarkup(
-    keyboard=[[KeyboardButton(text="Свежий")],
-              [KeyboardButton(text="Нет")]],
+    keyboard=[
+        [KeyboardButton(text="Свежий")],
+        [KeyboardButton(text="Нет")]
+    ],
+    resize_keyboard=True
+)
+
+regen_keyboard = ReplyKeyboardMarkup(
+    keyboard=[
+        [KeyboardButton(text="🔄 Сгенерировать заново")]
+    ],
     resize_keyboard=True
 )
 
@@ -89,40 +120,44 @@ fresh_keyboard = ReplyKeyboardMarkup(
 @dp.message(Command("start"))
 async def start(message: types.Message, state: FSMContext):
     await state.set_state(MixForm.choosing_base)
-    await message.answer(
-        "Какую основу выбираем?",
-        reply_markup=base_keyboard()
-    )
+    await message.answer("Какую основу выбираем?", reply_markup=base_keyboard())
 
 @dp.message(MixForm.choosing_base)
 async def choose_base(message: types.Message, state: FSMContext):
-    await state.update_data(base=message.text)
     await state.set_state(MixForm.choosing_taste)
     await message.answer("Характер вкуса?", reply_markup=taste_keyboard)
 
 @dp.message(MixForm.choosing_taste)
 async def choose_taste(message: types.Message, state: FSMContext):
-    await state.update_data(taste=message.text)
     await state.set_state(MixForm.choosing_fresh)
     await message.answer("Добавить свежесть?", reply_markup=fresh_keyboard)
 
 @dp.message(MixForm.choosing_fresh)
 async def choose_fresh(message: types.Message, state: FSMContext):
-    data = await state.get_data()
-
-    base = weighted_choice()
-    second = weighted_choice()
-    third = weighted_choice()
+    first, second, third = generate_mix()
 
     text = (
         "🔥 Твой микс:\n"
-        f"60% {base}\n"
+        f"60% {first}\n"
         f"30% {second}\n"
         f"10% {third}"
     )
 
-    await message.answer(text)
+    await message.answer(text, reply_markup=regen_keyboard)
     await state.clear()
+
+@dp.message(lambda m: m.text == "🔄 Сгенерировать заново")
+async def regenerate(message: types.Message):
+    first, second, third = generate_mix()
+
+    text = (
+        "🔥 Новый микс:\n"
+        f"60% {first}\n"
+        f"30% {second}\n"
+        f"10% {third}"
+    )
+
+    await message.answer(text, reply_markup=regen_keyboard)
 
 # ---------- ЗАПУСК ----------
 
