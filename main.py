@@ -120,7 +120,7 @@ flavors = {
     },
 
     "Гастрономия": {
-        "Jent Cigar": (10, "neutral"),
+        "Jent Cigar Виски": (10, "neutral"),
         "Darkside Honey Dust": (6, "sweet"),
         "Darkside Pinekiller": (5, "neutral"),
         "Darkside Dark Icecream": (7, "sweet"),
@@ -323,3 +323,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
