@@ -35,6 +35,9 @@ flavors = {
         "Brusko Яблочный Штрудель": 7,
         "Хулиган Апельсиновый Шоколад": 7,
         "Adaya Milk": 6,
+        "Must Have Choco Mint": 10,
+        "Banger Choko Mint": 8,
+        "Jent Dolce Mint": 10,
     },
 
     "Фруктово-ягодный": {
@@ -130,9 +133,6 @@ flavors = {
     "Свежесть": {
         "Must Have Frosty": 10,
         "Must Have Ice Mint": 8,
-        "Must Have Choco Mint": 10,
-        "Banger Choko Mint": 8,
-        "Jent Dolce Mint": 10,
         "Adaya Ice": 7,
     }
 }
@@ -280,3 +280,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
