@@ -19,122 +19,122 @@ dp = Dispatcher(storage=MemoryStorage())
 flavors = {
 
     "Десертный": {
-        "Black Burn Nutella": (4, "sweet"),
-        "Black Burn Brownie": (7, "sweet"),
-        "Black Burn Almond Ice Cream": (5, "sweet"),
-        "Black Burn After 8": (6, "neutral"),
-        "Must Have Cheesecake": (5, "sweet"),
-        "Must Have Cookie": (8, "sweet"),
-        "Must Have Ice Cream": (7, "sweet"),
-        "Must Have Candy Cow": (6, "sweet"),
-        "Overdose Waffles": (8, "sweet"),
-        "Overdose Baileys": (8, "sweet"),
-        "Overdose Coffee": (6, "neutral"),
-        "Starline Сливочный Крем": (7, "sweet"),
-        "Sebero Caramel Glass": (7, "sweet"),
-        "Sebero Black and White": (7, "sweet"),
-        "Brusko Яблочный Штрудель": (7, "sweet"),
-        "Хулиган Апельсиновый Шоколад": (7, "sweet"),
-        "Adaya Milk": (6, "sweet"),
-        "Must Have Choco Mint": (10, "neutral"),
-        "Banger Choko Mint": (8, "neutral"),
-        "Jent Dolce Mint": (10, "neutral"),
+        "🍰 Black Burn Nutella": (4, "sweet"),
+        "🍰 Black Burn Brownie": (7, "sweet"),
+        "🍰 Black Burn Almond Ice Cream": (5, "sweet"),
+        "🍰 Black Burn After 8": (6, "neutral"),
+        "🍰 Must Have Cheesecake": (5, "sweet"),
+        "🍰 Must Have Cookie": (8, "sweet"),
+        "🍰 Must Have Ice Cream": (7, "sweet"),
+        "🍰 Must Have Candy Cow": (6, "sweet"),
+        "🍰 Overdose Waffles": (8, "sweet"),
+        "🍰 Overdose Baileys": (8, "sweet"),
+        "🍰 Overdose Coffee": (6, "neutral"),
+        "🍰 Starline Сливочный Крем": (7, "sweet"),
+        "🍰 Sebero Caramel Glass": (7, "sweet"),
+        "🍰 Sebero Black and White": (7, "sweet"),
+        "🍰 Brusko Яблочный Штрудель": (7, "sweet"),
+        "🍰 Хулиган Апельсиновый Шоколад": (7, "sweet"),
+        "🍰 Adaya Milk": (6, "sweet"),
+        "🍰 Must Have Choco Mint": (10, "neutral"),
+        "🍰 Banger Choko Mint": (8, "neutral"),
+        "🍰 Jent Dolce Mint": (10, "neutral"),
     },
 
     "Фруктово-ягодный": {
-        "Must Have Pinkman": (10, "sweet"),
-        "Must Have Black Currant": (10, "sweet"),
-        "Must Have Berry Mors": (6, "sweet"),
-        "Must Have Strawberry": (7, "sweet"),
-        "Must Have Raspberry": (6, "sweet"),
-        "Must Have Blueberry": (6, "sweet"),
-        "Must Have Watermelon": (7, "sweet"),
-        "DUFT Watermelon": (7, "sweet"),
-        "DUFT Cherry Juice": (7, "sweet"),
-        "DUFT Blueberry": (6, "sweet"),
-        "Element Raspberry": (5, "sweet"),
-        "Trofimoffs Wild Strawberry": (6, "sweet"),
-        "Trofimoffs Krick": (7, "sweet"),
-        "Trofimoffs Hukheberry": (6, "sweet"),
-        "Starline Клюква": (5, "sour"),
-        "Starline Гранатовый Сок": (6, "sweet"),
-        "Adaya Pinkman": (8, "sweet"),
-        "Adaya Raspberry": (6, "sweet"),
-        "Adaya Watermelon": (6, "sweet"),
-        "Adaya Blue Melon": (7, "sweet"),
-        "Sebero Strawberry": (5, "sweet"),
-        "Sebero Bilberry": (2, "sweet"),
-        "Наш Вишневый Сок": (4, "sweet"),
-        "Северный Фрутомания": (5, "sweet"),
+        "🍓 Must Have Pinkman": (10, "sweet"),
+        "🍓 Must Have Black Currant": (10, "sweet"),
+        "🍓 Must Have Berry Mors": (6, "sweet"),
+        "🍓 Must Have Strawberry": (7, "sweet"),
+        "🍓 Must Have Raspberry": (6, "sweet"),
+        "🍓 Must Have Blueberry": (6, "sweet"),
+        "🍓 Must Have Watermelon": (7, "sweet"),
+        "🍓 DUFT Watermelon": (7, "sweet"),
+        "🍓 DUFT Cherry Juice": (7, "sweet"),
+        "🍓 DUFT Blueberry": (6, "sweet"),
+        "🍓 Element Raspberry": (5, "sweet"),
+        "🍓 Trofimoffs Wild Strawberry": (6, "sweet"),
+        "🍓 Trofimoffs Krick": (7, "sweet"),
+        "🍓 Trofimoffs Hukheberry": (6, "sweet"),
+        "🍓 Starline Клюква": (5, "sour"),
+        "🍓 Starline Гранатовый Сок": (6, "sweet"),
+        "🍓 Adaya Pinkman": (8, "sweet"),
+        "🍓 Adaya Raspberry": (6, "sweet"),
+        "🍓 Adaya Watermelon": (6, "sweet"),
+        "🍓 Adaya Blue Melon": (7, "sweet"),
+        "🍓 Sebero Strawberry": (5, "sweet"),
+        "🍓 Sebero Bilberry": (2, "sweet"),
+        "🍓 Наш Вишневый Сок": (4, "sweet"),
+        "🍓 Северный Фрутомания": (5, "sweet"),
     },
 
     "Цитрусовый": {
-        "Black Burn Red Orange": (6, "sour"),
-        "Black Burn Lime Shock": (7, "sour"),
-        "Black Burn Grapefruit": (5, "sour"),
-        "Black Burn Lemon Sweets": (6, "sour"),
-        "Must Have Lemon and Lime": (6, "sour"),
-        "Must Have Sour Apple": (8, "sour"),
-        "Satyr Ice Tangerine": (4, "sour"),
-        "Satyr Margarita": (6, "sour"),
-        "DEUS YUZU": (6, "sour"),
-        "Trofimoffs Grapefruit": (5, "sour"),
-        "Sebero Шипучка Лимон": (6, "sour"),
-        "Starline Лимонная Шипучка": (4, "sour"),
-        "Adaya Orange": (4, "sour"),
+        "🍊 Black Burn Red Orange": (6, "sour"),
+        "🍊 Black Burn Lime Shock": (7, "sour"),
+        "🍊 Black Burn Grapefruit": (5, "sour"),
+        "🍊 Black Burn Lemon Sweets": (6, "sour"),
+        "🍊 Must Have Lemon and Lime": (6, "sour"),
+        "🍊 Must Have Sour Apple": (8, "sour"),
+        "🍊 Satyr Ice Tangerine": (4, "sour"),
+        "🍊 Satyr Margarita": (6, "sour"),
+        "🍊 DEUS YUZU": (6, "sour"),
+        "🍊 Trofimoffs Grapefruit": (5, "sour"),
+        "🍊 Sebero Шипучка Лимон": (6, "sour"),
+        "🍊 Starline Лимонная Шипучка": (4, "sour"),
+        "🍊 Adaya Orange": (4, "sour"),
     },
 
     "Тропический": {
-        "Black Burn Ananas Shock": (9, "sweet"),
-        "Black Burn Pinacolada": (4, "sweet"),
-        "Black Burn Something Tropical": (5, "sweet"),
-        "Black Burn Тропический Сок": (2, "sweet"),
-        "Must Have Jumango": (9, "sweet"),
-        "Must Have Mango Sling": (5, "sweet"),
-        "Must Have Pineapple Rings": (7, "sweet"),
-        "Must Have Sour Tropic": (6, "sour"),
-        "Nur Pinacolada": (7, "sweet"),
-        "Darkside Pineapple Pulse": (7, "sweet"),
-        "Darkside Mango Lassi": (6, "sweet"),
-        "Overdose Strawberry Kiwi": (7, "sweet"),
-        "Adaya Mango Tango Ice": (2, "sweet"),
-        "Adaya Jungle Jungle": (6, "sweet"),
-        "Brusko Пина Колада": (4, "sweet"),
+        "🍍 Black Burn Ananas Shock": (9, "sweet"),
+        "🍍 Black Burn Pinacolada": (4, "sweet"),
+        "🍍 Black Burn Something Tropical": (5, "sweet"),
+        "🍍 Black Burn Тропический Сок": (2, "sweet"),
+        "🍍 Must Have Jumango": (9, "sweet"),
+        "🍍 Must Have Mango Sling": (5, "sweet"),
+        "🍍 Must Have Pineapple Rings": (7, "sweet"),
+        "🍍 Must Have Sour Tropic": (6, "sour"),
+        "🍍 Nur Pinacolada": (7, "sweet"),
+        "🍍 Darkside Pineapple Pulse": (7, "sweet"),
+        "🍍 Darkside Mango Lassi": (6, "sweet"),
+        "🍍 Overdose Strawberry Kiwi": (7, "sweet"),
+        "🍍 Adaya Mango Tango Ice": (2, "sweet"),
+        "🍍 Adaya Jungle Jungle": (6, "sweet"),
+        "🍍 Brusko Пина Колада": (4, "sweet"),
     },
 
     "Напиток": {
-        "Black Burn Overcola": (8, "sweet"),
-        "Black Burn Black Cola": (9, "sweet"),
-        "Black Burn Mirinda": (7, "sweet"),
-        "Must Have Cola": (0, "sweet"),
-        "Must Have Cream Soda": (6, "sweet"),
-        "Must Have Melonade": (7, "sweet"),
-        "Must Have Rocketman": (8, "sweet"),
-        "Starline Ванильная Кола": (5, "sweet"),
-        "Adaya Cola Cherry": (4, "sweet"),
-        "Darkside Mohito Yota": (6, "sour"),
-        "Overdose Currant Mead": (0, "sweet"),
-        "Наш Торфяной Виски": (5, "neutral"),
-        "Must Have Caribbean Rum": (7, "neutral"),
-        "Jent Coca Choca": (8, "sweet"),
+        "🥤 Black Burn Overcola": (8, "sweet"),
+        "🥤 Black Burn Black Cola": (9, "sweet"),
+        "🥤 Black Burn Mirinda": (7, "sweet"),
+        "🥤 Must Have Cola": (0, "sweet"),
+        "🥤 Must Have Cream Soda": (6, "sweet"),
+        "🥤 Must Have Melonade": (7, "sweet"),
+        "🥤 Must Have Rocketman": (8, "sweet"),
+        "🥤 Starline Ванильная Кола": (5, "sweet"),
+        "🥤 Adaya Cola Cherry": (4, "sweet"),
+        "🥤 Darkside Mohito Yota": (6, "sour"),
+        "🥤 Overdose Currant Mead": (0, "sweet"),
+        "🥤 Наш Торфяной Виски": (5, "neutral"),
+        "🥤 Must Have Caribbean Rum": (7, "neutral"),
+        "🥤 Jent Coca Choca": (8, "sweet"),
     },
 
     "Гастрономия": {
-        "Jent Cigar Виски": (10, "neutral"),
-        "Darkside Honey Dust": (6, "sweet"),
-        "Darkside Pinekiller": (5, "neutral"),
-        "Darkside Dark Icecream": (7, "sweet"),
-        "Black Burn Black Honey": (7, "sweet"),
-        "Black Burn Haribon": (8, "sweet"),
-        "Adaya Sheik Money": (7, "neutral"),
-        "Adaya Mi Amor": (5, "sweet"),
-        "Sebero Sunny Honey": (3, "sweet"),
+        "🥃 Jent Cigar Виски": (10, "neutral"),
+        "🥃 Darkside Honey Dust": (6, "sweet"),
+        "🥃 Darkside Pinekiller": (5, "neutral"),
+        "🥃 Darkside Dark Icecream": (7, "sweet"),
+        "🥃 Black Burn Black Honey": (7, "sweet"),
+        "🥃 Black Burn Haribon": (8, "sweet"),
+        "🥃 Adaya Sheik Money": (7, "neutral"),
+        "🥃 Adaya Mi Amor": (5, "sweet"),
+        "🥃 Sebero Sunny Honey": (3, "sweet"),
     },
 
     "Свежесть": {
-        "Must Have Frosty": (10, "neutral"),
-        "Must Have Ice Mint": (8, "neutral"),
-        "Adaya Ice": (7, "neutral"),
+        "❄️ Must Have Frosty": (10, "neutral"),
+        "❄️ Must Have Ice Mint": (8, "neutral"),
+        "❄️ Adaya Ice": (7, "neutral"),
     }
 }
 
@@ -173,7 +173,8 @@ fresh_keyboard = ReplyKeyboardMarkup(
 post_mix_keyboard = ReplyKeyboardMarkup(
     keyboard=[
         [KeyboardButton(text="🔄 Сгенерировать заново")],
-        [KeyboardButton(text="🆕 Новый кальян")]
+        [KeyboardButton(text="🆕 Новый кальян")],
+        [KeyboardButton(text="📋 Показать все вкусы")]
     ],
     resize_keyboard=True
 )
@@ -246,6 +247,20 @@ def generate_mix(base_category, taste, fresh_choice):
 
     return first, second, third
 
+    #Вывод списка вкусов
+    def format_all_flavors():
+    text = "📋 Все вкусы:\n\n"
+
+    for category, items in flavors.items():
+        text += f"{category}:\n"
+
+        for name, (rating, _) in items.items():
+            text += f"    {name} {rating}/10\n"
+
+        text += "\n"
+
+    return text
+
 # ================== ХЕНДЛЕРЫ ==================
 
 @dp.message(Command("start"))
@@ -315,7 +330,18 @@ async def new_hookah(message: types.Message, state: FSMContext):
         "🆕 Делаем новый кальян!\nКакую основу выбираем?",
         reply_markup=base_keyboard()
     )
+    
+@dp.message(lambda m: m.text == "📋 Показать все вкусы")
+async def show_all_flavors(message: types.Message):
+    text = format_all_flavors()
 
+    # если список длинный — разбиваем на части
+    if len(text) > 4000:
+        for i in range(0, len(text), 4000):
+            await message.answer(text[i:i+4000])
+        await message.answer("👇", reply_markup=post_mix_keyboard)
+    else:
+        await message.answer(text, reply_markup=post_mix_keyboard)
 # ================== ЗАПУСК ==================
 
 async def main():
@@ -323,4 +349,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-
