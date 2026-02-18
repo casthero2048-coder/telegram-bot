@@ -248,13 +248,17 @@ def generate_mix(base_category, taste, fresh_choice):
     return first, second, third
 
     #Вывод списка вкусов
-    def format_all_flavors():
+def format_all_flavors():
     text = "📋 Все вкусы:\n\n"
+
     for category, items in flavors.items():
         text += f"{category}:\n"
+
         for name, (rating, _) in items.items():
             text += f"    {name} {rating}/10\n"
+
         text += "\n"
+
     return text
 
 # ================== ХЕНДЛЕРЫ ==================
