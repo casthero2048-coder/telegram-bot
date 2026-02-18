@@ -168,14 +168,18 @@ def base_keyboard():
     )
 
 taste_keyboard = ReplyKeyboardMarkup(
-    keyboard=[[KeyboardButton(text="Сладкий")],
-              [KeyboardButton(text="Кислый")]],
+    keyboard=[
+        [KeyboardButton(text="🍰 Сладкий")],
+        [KeyboardButton(text="🍋 Кислый")]
+    ],
     resize_keyboard=True
 )
 
 fresh_keyboard = ReplyKeyboardMarkup(
-    keyboard=[[KeyboardButton(text="Свежий")],
-              [KeyboardButton(text="Нет")]],
+    keyboard=[
+        [KeyboardButton(text="❄️ Свежий")],
+        [KeyboardButton(text="🚫 Без свежести")]
+    ],
     resize_keyboard=True
 )
 
@@ -210,9 +214,9 @@ def build_weighted_pool(category_dict, taste, exclude=None):
             weight = 0
 
         # усиление по характеру вкуса
-        if taste == "Сладкий" and profile == "sweet":
+        if "Сладкий" in taste and profile == "sweet":
             weight *= 2
-        elif taste == "Кислый" and profile == "sour":
+        elif "Кислый" in taste and profile == "sour":
             weight *= 2
 
         if weight > 0:
@@ -244,7 +248,7 @@ def generate_mix(base_category, taste, fresh_choice):
     second = random.choice(second_pool)
 
     # 10% — свежесть если выбрали "Свежий", иначе из всех кроме свежести
-    if fresh_choice == "Свежий":
+    if "Свежий" in fresh_choice:
         third_pool = build_weighted_pool(flavors["Свежесть"], taste, exclude=[first, second])
         if not third_pool:
             third_pool = [k for k in flavors["Свежесть"].keys() if k not in {first, second}]
@@ -292,7 +296,7 @@ async def choose_base(message: types.Message, state: FSMContext):
 
 @dp.message(MixForm.choosing_taste)
 async def choose_taste(message: types.Message, state: FSMContext):
-    if message.text not in ["Сладкий", "Кислый"]:
+    if message.text not in ["🍰 Сладкий", "🍋 Кислый"]:
         await message.answer("Выбери вариант кнопкой ниже 👇", reply_markup=taste_keyboard)
         return
 
@@ -302,7 +306,7 @@ async def choose_taste(message: types.Message, state: FSMContext):
 
 @dp.message(MixForm.choosing_fresh)
 async def choose_fresh(message: types.Message, state: FSMContext):
-    if message.text not in ["Свежий", "Нет"]:
+    if message.text not in ["❄️ Свежий", "🚫 Без свежести"]:
         await message.answer("Выбери вариант кнопкой ниже 👇", reply_markup=fresh_keyboard)
         return
 
