@@ -329,13 +329,16 @@ async def new_hookah(message: types.Message, state: FSMContext):
 
 @dp.message(lambda m: m.text == "📋 Показать все вкусы")
 async def show_all_flavors(message: types.Message):
+
     text = format_all_flavors()
 
     # если список длинный — разбиваем на части
     if len(text) > 4000:
         for i in range(0, len(text), 4000):
             await message.answer(text[i:i+4000])
-        await message.answer("👇", reply_markup=post_mix_keyboard)
+
+        await message.answer("⬇️", reply_markup=post_mix_keyboard)
+
     else:
         await message.answer(text, reply_markup=post_mix_keyboard)
 # ================== ЗАПУСК ==================
