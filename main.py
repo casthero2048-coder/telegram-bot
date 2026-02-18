@@ -149,8 +149,15 @@ class MixForm(StatesGroup):
 # user_id -> (base, taste, fresh)
 user_last_choice = {}
 
-bases = [k for k in flavors.keys() if k != "Свежесть"]
-
+bases = list(base_buttons.keys())
+base_buttons = {
+    "🍰 Десертный": "Десертный",
+    "🍓 Фруктово-ягодный": "Фруктово-ягодный",
+    "🍊 Цитрусовый": "Цитрусовый",
+    "🍍 Тропический": "Тропический",
+    "🥤 Напиток": "Напиток",
+    "🥃 Гастрономия": "Гастрономия",
+}
 def base_keyboard():
     return ReplyKeyboardMarkup(
         keyboard=[[KeyboardButton(text=b)] for b in bases],
@@ -270,11 +277,13 @@ async def start(message: types.Message, state: FSMContext):
 
 @dp.message(MixForm.choosing_base)
 async def choose_base(message: types.Message, state: FSMContext):
-    if message.text not in bases:
+    if message.text not in base_buttons:
         await message.answer("Выбери основу кнопкой ниже 👇", reply_markup=base_keyboard())
         return
 
-    await state.update_data(base=message.text)
+    real_base = base_buttons[message.text]   # <-- категория без эмодзи
+
+    await state.update_data(base=real_base)
     await state.set_state(MixForm.choosing_taste)
     await message.answer("Характер вкуса?", reply_markup=taste_keyboard)
 
