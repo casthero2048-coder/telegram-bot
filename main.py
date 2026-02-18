@@ -250,15 +250,11 @@ def generate_mix(base_category, taste, fresh_choice):
     #Вывод списка вкусов
     def format_all_flavors():
     text = "📋 Все вкусы:\n\n"
-
     for category, items in flavors.items():
         text += f"{category}:\n"
-
         for name, (rating, _) in items.items():
             text += f"    {name} {rating}/10\n"
-
         text += "\n"
-
     return text
 
 # ================== ХЕНДЛЕРЫ ==================
@@ -330,7 +326,7 @@ async def new_hookah(message: types.Message, state: FSMContext):
         "🆕 Делаем новый кальян!\nКакую основу выбираем?",
         reply_markup=base_keyboard()
     )
-    
+
 @dp.message(lambda m: m.text == "📋 Показать все вкусы")
 async def show_all_flavors(message: types.Message):
     text = format_all_flavors()
